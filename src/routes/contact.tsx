@@ -10,7 +10,6 @@ import {
   type ComposedMessage,
   type EnquiryValues,
 } from "~/lib/contact-message";
-import { findProductBySlug } from "~/lib/products";
 import { site } from "~/lib/site";
 
 const TITLE = "Contact — Spearpoint Automation";
@@ -18,9 +17,6 @@ const DESCRIPTION =
   "Tell us what's slowing your business down. A short description is enough to start. This form composes an email in your own mail application — nothing is sent from this website.";
 
 export const Route = createFileRoute("/contact")({
-  validateSearch: (search: Record<string, unknown>): { topic?: string } => ({
-    topic: typeof search.topic === "string" ? search.topic : undefined,
-  }),
   head: () => ({
     meta: [
       { title: TITLE },
@@ -119,9 +115,6 @@ const EMPTY_VALUES: EnquiryValues & { consent: boolean; honeypot: string } = {
 type Status = "idle" | "not-configured" | "handed-off" | "too-long" | "blocked";
 
 function ContactPage() {
-  const { topic } = Route.useSearch();
-  const product = findProductBySlug(topic);
-
   return (
     <>
       <PageHeader
@@ -133,12 +126,6 @@ function ContactPage() {
       <Section className="pt-0">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
-            {product ? (
-              <p className="type-small mb-6 text-ink-muted">
-                You came from the {product.name} card on the solutions page. Mention that in your
-                message if it is the right place to start.
-              </p>
-            ) : null}
             <ConsultationForm />
           </div>
           <aside className="lg:col-span-5">
@@ -187,8 +174,8 @@ function ContactAside() {
       <div className="rounded-card border border-line bg-white p-5">
         <h2 className="type-h3">Something else?</h2>
         <p className="type-small mt-2 text-ink-muted">
-          The Automation Assessment will help you work out where to start. It is being built and
-          is not available yet.
+          If you would rather not start with a message, the Automation Assessment helps you work
+          out where to begin. It is being built and is not available yet.
         </p>
       </div>
     </div>

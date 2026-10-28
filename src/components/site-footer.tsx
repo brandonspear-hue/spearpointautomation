@@ -30,12 +30,6 @@ export function SiteFooter({ inert = false }: { inert?: boolean }) {
                   </Link>
                 </li>
               ))}
-              <li className="type-small flex flex-wrap items-center gap-2 text-white/60">
-                Automation Assessment
-                <span className="type-eyebrow rounded-badge border border-white/40 px-2 py-0.5">
-                  Coming soon
-                </span>
-              </li>
             </ul>
           </nav>
 
@@ -80,7 +74,7 @@ export function SiteFooter({ inert = false }: { inert?: boolean }) {
             </span>
           </p>
           <p className="type-small mt-3 text-white/70">
-            Demonstrations on this site run on synthetic data. No client work is shown.
+            No client work appears on this site, and no client data is used anywhere in it.
           </p>
         </div>
       </Container>

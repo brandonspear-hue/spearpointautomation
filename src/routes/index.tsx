@@ -8,13 +8,10 @@ import {
   IconArrowRight,
   IconHelp,
   IconInvoice,
-  IconList,
   IconMail,
   IconSync,
 } from "~/components/icons";
 import { Section } from "~/components/section";
-import { SyntheticDataNotice } from "~/components/synthetic-data-notice";
-import { FEATURED_PRODUCT } from "~/lib/products";
 
 const TITLE = "Spearpoint Automation — custom AI solutions for small businesses";
 const DESCRIPTION =
@@ -69,6 +66,34 @@ const ENGAGEMENT = [
   { title: "Handover", detail: "Your accounts, your documentation, optional support." },
 ];
 
+/**
+ * What every piece of work ends with. Deliberately about the method, not about
+ * past clients: the business has none yet, so this promises a way of working
+ * rather than a track record.
+ */
+const DELIVERABLES = [
+  {
+    title: "A working build",
+    detail:
+      "Software running on the systems you already use, doing the step it was built for — open it and check it before you accept it.",
+  },
+  {
+    title: "The process map",
+    detail:
+      "The written record of steps, handoffs and waits from discovery, so the build can be judged against the process it came from.",
+  },
+  {
+    title: "A runbook",
+    detail:
+      "Written for someone who has never met us: what it does, what to do when something looks wrong, and who to ask.",
+  },
+  {
+    title: "Your accounts and your data",
+    detail:
+      "Everything sits in systems you control. Support is a separate arrangement you can end.",
+  },
+];
+
 function HomePage() {
   return (
     <>
@@ -76,9 +101,8 @@ function HomePage() {
       <ProblemSection />
       <WhatWeDoSection />
       <SystemsSection />
-      <ProofSection />
+      <DeliverablesSection />
       <AssessmentSection />
-      <EngagementSection />
       <CtaBand />
     </>
   );
@@ -111,7 +135,7 @@ function Hero() {
           </div>
         </div>
         <div className="lg:col-span-5">
-          <DemoFrame />
+          <EngagementPanel />
         </div>
       </div>
     </Section>
@@ -119,45 +143,41 @@ function Hero() {
 }
 
 /**
- * The frame beside the hero (blueprint §3.1 item 1).
+ * The panel beside the hero (blueprint §3.1 item 1, revised).
  *
- * It shows the real product record, not a mock-up: the demo does not exist yet,
- * so there is no screenshot to show. When the demonstration ships on
- * `/examples/ar-collections`, the inner panel is replaced with the actual
- * priority queue and the caption becomes "running on synthetic data".
+ * This space used to hold a frame of a product demonstration. The site no longer
+ * advertises products, so it now answers the question a first-time visitor
+ * actually has: what happens if I get in touch, and what am I committing to?
  */
-function DemoFrame() {
-  const product = FEATURED_PRODUCT;
-
+function EngagementPanel() {
   return (
-    <figure className="overflow-hidden rounded-panel border border-line bg-white">
+    <div className="overflow-hidden rounded-panel border border-line bg-white">
       <div className="flex items-center justify-between gap-3 bg-navy-800 px-4 py-3 text-white on-navy">
-        <span className="type-small font-medium">{product.name}</span>
-        <span className="type-eyebrow text-white/70">Synthetic data</span>
+        <span className="type-small font-medium">What working with us involves</span>
+        <span className="type-eyebrow text-white/70">Five steps</span>
       </div>
 
-      <div className="p-4 sm:p-5">
-        <div className="rounded-card border border-dashed border-ink-muted/40 p-5 text-center sm:p-6">
-          <IconList className="mx-auto h-6 w-6 text-ink-muted" />
-          <p className="type-h3 mt-3">The working demonstration is being built.</p>
-          <p className="type-small mx-auto mt-2 max-w-sm text-ink-muted">
-            This frame will show the real priority queue — not a picture of one. Every screen
-            will carry the same label it carries today: synthetic data, invented customers,
-            invented invoices.
-          </p>
-        </div>
+      <ol className="flex flex-col divide-y divide-line">
+        {ENGAGEMENT.map((step, index) => (
+          <li key={step.title} className="flex gap-4 px-4 py-3 sm:px-5">
+            <span className="type-eyebrow mt-1 shrink-0 text-ink-muted">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div>
+              <p className="type-small font-medium">{step.title}</p>
+              <p className="type-small text-ink-muted">{step.detail}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
 
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
-          <span className="type-small text-ink-muted">Prototype · demonstration in progress</span>
-          <span className="type-small text-ink-muted">Not a client project</span>
-        </div>
+      <div className="border-t border-line px-4 py-3 sm:px-5">
+        <Link to="/how-it-works" className="text-link type-small inline-flex items-center gap-2">
+          How an engagement works, in detail
+          <IconArrowRight />
+        </Link>
       </div>
-
-      <figcaption className="border-t border-line px-4 py-3 type-small text-ink-muted sm:px-5">
-        Our AR Collections Manager. Prototype: the demonstration is in progress, so there is
-        nothing here to click yet.
-      </figcaption>
-    </figure>
+    </div>
   );
 }
 
@@ -284,67 +304,25 @@ function DiagramArrow() {
   );
 }
 
-function ProofSection() {
-  const product = FEATURED_PRODUCT;
-
+function DeliverablesSection() {
   return (
     <Section>
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <h2 className="type-h2 measure">A working example, with the labels left on.</h2>
-        <Link to="/examples" className="text-link type-body inline-flex items-center gap-2">
-          What we build
-          <IconArrowRight />
-        </Link>
-      </div>
-
-      <div className="mt-12 rounded-panel border border-line bg-white p-6 lg:p-8">
-        <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-7">
-            <h3 className="type-h3">{product.name}</h3>
-            <p className="type-lead mt-4">{product.problem}</p>
-
-            <p className="type-eyebrow mt-8 text-ink-muted">What it is being built to do</p>
-            <ul className="mt-3 flex flex-col gap-2">
-              {product.capabilities.map((capability) => (
-                <li key={capability} className="type-body flex gap-3">
-                  <span aria-hidden="true" className="mt-2 h-px w-4 shrink-0 bg-blue-700" />
-                  {capability}
-                </li>
-              ))}
-            </ul>
-
-            <p className="type-small mt-6 text-ink-muted">
-              Connects to: {product.connectsTo.join(", ")}
-            </p>
-          </div>
-
-          <div className="lg:col-span-5">
-            <div className="rounded-card bg-ivory-100 p-5">
-              <p className="type-eyebrow text-ink-muted">Where it is today</p>
-              <p className="type-body mt-3">
-                Prototype. The demonstration is being built, so it is not open to the public yet.
-              </p>
-              <p className="type-body mt-3">
-                No client has used it. When one does, the label changes — and not before.
-              </p>
-            </div>
-            <SyntheticDataNotice className="mt-4" />
-          </div>
-        </div>
-
-        <div className="mt-8 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="type-body measure">
-            This is a demonstration build, not a client engagement. We have not had a client use it
-            yet, and we won&apos;t say we have.
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-4">
+          <h2 className="type-h2">What you end up with.</h2>
+          <p className="type-body measure mt-6 text-ink-muted">
+            However small the build, it ends the same way. If it doesn&apos;t, it isn&apos;t
+            finished.
           </p>
-          <Link
-            to="/examples/ar-collections"
-            className="text-link type-body inline-flex shrink-0 items-center gap-2"
-          >
-            Read about this example
-            <IconArrowRight />
-          </Link>
         </div>
+        <ul className="grid gap-6 sm:grid-cols-2 lg:col-span-8">
+          {DELIVERABLES.map((item) => (
+            <li key={item.title} className="border-t border-line pt-4">
+              <h3 className="type-h3">{item.title}</h3>
+              <p className="type-body mt-2 text-ink-muted">{item.detail}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </Section>
   );
@@ -370,30 +348,6 @@ function AssessmentSection() {
           </Button>
         </div>
       </div>
-    </Section>
-  );
-}
-
-function EngagementSection() {
-  return (
-    <Section>
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <h2 className="type-h2 measure">What working with us involves.</h2>
-        <Link to="/how-it-works" className="text-link type-body inline-flex items-center gap-2">
-          How it works
-          <IconArrowRight />
-        </Link>
-      </div>
-
-      <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-        {ENGAGEMENT.map((step, index) => (
-          <li key={step.title} className="border-t border-line pt-4">
-            <p className="type-eyebrow text-ink-muted">{String(index + 1).padStart(2, "0")}</p>
-            <h3 className="type-h3 mt-2">{step.title}</h3>
-            <p className="type-small mt-2 text-ink-muted">{step.detail}</p>
-          </li>
-        ))}
-      </ol>
     </Section>
   );
 }

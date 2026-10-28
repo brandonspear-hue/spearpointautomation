@@ -5,8 +5,6 @@ import type { ReactNode } from "react";
 export type StaticPath =
   | "/"
   | "/services"
-  | "/examples"
-  | "/examples/ar-collections"
   | "/how-it-works"
   | "/about"
   | "/contact";

@@ -129,12 +129,13 @@ function AboutPage() {
             </section>
 
             <section>
-              <h2 className="type-h2">Why the demonstration matters</h2>
+              <h2 className="type-h2">How you can check any of this</h2>
               <p className="type-body measure mt-4">
-                The AR Collections Manager is product one. It exists to be inspected rather than
-                described: you can open it, read the rules it applies, and check its totals
-                against its own invoices. It runs on synthetic data because no client&apos;s data
-                belongs on a public website — and the label saying so stays on every screen.
+                Nothing here asks you to take the work on trust. The assessment linked from the
+                front page runs in your own browser and shows the reasoning behind every line it
+                returns, so you can disagree with it before you ever speak to anyone. In a
+                project, it is the same idea: something you can open, test and argue with at each
+                stage, rather than a description of what will be built.
               </p>
             </section>
           </div>
