@@ -7,6 +7,7 @@ export type StaticPath =
   | "/services"
   | "/how-it-works"
   | "/about"
+  | "/assessment"
   | "/contact";
 
 type Variant = "primary" | "secondary" | "quiet" | "onNavy";

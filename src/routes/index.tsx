@@ -127,9 +127,7 @@ function Hero() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button to="/contact">Book a consultation</Button>
-            {/* The assessment is a separate build; until it exists this is a
-                labelled non-link rather than a link to a page that would 404. */}
-            <Button variant="secondary" soon>
+            <Button variant="secondary" to="/assessment">
               Take the two-minute assessment
             </Button>
           </div>
@@ -343,7 +341,7 @@ function AssessmentSection() {
           </p>
         </div>
         <div className="mt-6 shrink-0 lg:mt-0">
-          <Button variant="secondary" soon>
+          <Button variant="secondary" to="/assessment">
             Take the two-minute assessment
           </Button>
         </div>

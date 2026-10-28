@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { PendingDetail } from "~/components/pending-detail";
 import { PageHeader } from "~/components/page-header";
@@ -174,8 +174,13 @@ function ContactAside() {
       <div className="rounded-card border border-line bg-white p-5">
         <h2 className="type-h3">Something else?</h2>
         <p className="type-small mt-2 text-ink-muted">
-          If you would rather not start with a message, the Automation Assessment helps you work
-          out where to begin. It is being built and is not available yet.
+          If you would rather not start with a message, the Automation Assessment works out where
+          to begin from nine questions. It runs in your browser and sends nothing.
+        </p>
+        <p className="mt-3">
+          <Link to="/assessment" className="text-link type-small">
+            Take the assessment
+          </Link>
         </p>
       </div>
     </div>

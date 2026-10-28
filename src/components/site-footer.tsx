@@ -30,6 +30,16 @@ export function SiteFooter({ inert = false }: { inert?: boolean }) {
                   </Link>
                 </li>
               ))}
+              {/* Deliberately not in the header: in a nav bar it reads as a
+                  giveaway rather than a service (blueprint §1.2). */}
+              <li>
+                <Link
+                  to="/assessment"
+                  className="type-small text-white underline-offset-4 hover:underline"
+                >
+                  Automation Assessment
+                </Link>
+              </li>
             </ul>
           </nav>
 

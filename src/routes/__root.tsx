@@ -98,6 +98,9 @@ function NotFoundPage() {
           <Button to="/services" variant="onNavy">
             Services
           </Button>
+          <Button to="/assessment" variant="onNavy">
+            Assessment
+          </Button>
           <Button to="/contact" variant="onNavy">
             Contact
           </Button>
