@@ -13,7 +13,6 @@ import {
   IconSync,
 } from "~/components/icons";
 import { Section } from "~/components/section";
-import { StageBadge } from "~/components/stage-badge";
 import { SyntheticDataNotice } from "~/components/synthetic-data-notice";
 import { FEATURED_PRODUCT } from "~/lib/products";
 
@@ -123,9 +122,9 @@ function Hero() {
  * The frame beside the hero (blueprint §3.1 item 1).
  *
  * It shows the real product record, not a mock-up: the demo does not exist yet,
- * so there is no screenshot to show. When `/showcase/ar-collections` ships, the
- * inner panel is replaced with the actual priority queue and the caption becomes
- * "running on synthetic data".
+ * so there is no screenshot to show. When the demonstration ships on
+ * `/examples/ar-collections`, the inner panel is replaced with the actual
+ * priority queue and the caption becomes "running on synthetic data".
  */
 function DemoFrame() {
   const product = FEATURED_PRODUCT;
@@ -149,7 +148,7 @@ function DemoFrame() {
         </div>
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
-          <StageBadge stage={product.stage} />
+          <span className="type-small text-ink-muted">Prototype · demonstration in progress</span>
           <span className="type-small text-ink-muted">Not a client project</span>
         </div>
       </div>
@@ -290,15 +289,18 @@ function ProofSection() {
 
   return (
     <Section>
-      <h2 className="type-h2 measure">A working example, with the labels left on.</h2>
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <h2 className="type-h2 measure">A working example, with the labels left on.</h2>
+        <Link to="/examples" className="text-link type-body inline-flex items-center gap-2">
+          What we build
+          <IconArrowRight />
+        </Link>
+      </div>
 
       <div className="mt-12 rounded-panel border border-line bg-white p-6 lg:p-8">
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
-            <div className="flex flex-wrap items-center gap-3">
-              <h3 className="type-h3">{product.name}</h3>
-              <StageBadge stage={product.stage} />
-            </div>
+            <h3 className="type-h3">{product.name}</h3>
             <p className="type-lead mt-4">{product.problem}</p>
 
             <p className="type-eyebrow mt-8 text-ink-muted">What it is being built to do</p>
@@ -330,10 +332,19 @@ function ProofSection() {
           </div>
         </div>
 
-        <p className="type-body measure mt-8 border-t border-line pt-6">
-          This is a demonstration build, not a client engagement. We have not had a client use it
-          yet, and we won&apos;t say we have.
-        </p>
+        <div className="mt-8 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="type-body measure">
+            This is a demonstration build, not a client engagement. We have not had a client use it
+            yet, and we won&apos;t say we have.
+          </p>
+          <Link
+            to="/examples/ar-collections"
+            className="text-link type-body inline-flex shrink-0 items-center gap-2"
+          >
+            Read about this example
+            <IconArrowRight />
+          </Link>
+        </div>
       </div>
     </Section>
   );
