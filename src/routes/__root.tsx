@@ -95,8 +95,8 @@ function NotFoundPage() {
           <Button to="/" variant="onNavy">
             Home
           </Button>
-          <Button to="/showcase" variant="onNavy">
-            Solutions
+          <Button to="/examples" variant="onNavy">
+            What we build
           </Button>
           <Button to="/contact" variant="onNavy">
             Contact
