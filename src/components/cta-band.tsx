@@ -19,7 +19,9 @@ export function CtaBand({
           <h2 className="type-h2 measure">{title}</h2>
           <p className="type-lead measure mt-4 text-white/80">{lead}</p>
         </div>
-        <Button to="/contact" variant="onNavy" className="w-full sm:w-auto">
+        {/* shrink-0: without it the flex row squeezes the button and the label
+            wraps onto two lines on a wide screen. */}
+        <Button to="/contact" variant="onNavy" className="w-full shrink-0 sm:w-auto">
           Book a consultation
         </Button>
       </div>
