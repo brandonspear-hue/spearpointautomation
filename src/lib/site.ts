@@ -16,7 +16,7 @@ export const site = {
    * Set it to e.g. "hello@example.com" to switch the pre-composed email handoff
    * on — nothing else needs to change.
    */
-  contactEmail: null as string | null,
+  contactEmail: "brandon@spearpointautomation.com" as string | null,
 
   /** The service region, e.g. "Serving the United Kingdom" (blueprint §9.1 #2). */
   serviceRegion: null as string | null,
