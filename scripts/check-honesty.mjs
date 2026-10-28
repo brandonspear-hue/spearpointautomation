@@ -34,9 +34,6 @@ const files = walk(join(ROOT, "src"));
 const ALLOWED_STAGE_FILES = [
   "src/lib/stages.ts", // the union and the definitions live here
   "src/lib/products.ts", // the only place a stage is assigned to a product
-  // The badge maps a stage to a style. Its keys are typed Record<Stage, string>,
-  // so TypeScript enforces that it cannot invent or skip one.
-  "src/components/stage-badge.tsx",
 ];
 
 for (const file of files) {

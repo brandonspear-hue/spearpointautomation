@@ -3,10 +3,15 @@ import type { Stage } from "~/lib/stages";
 /**
  * The six products (blueprint §5).
  *
- * This is the ONLY place a product name, stage, problem statement or connection
- * is written. The Showcase page, the Home page proof card and (later) the demo
- * banner all read from here, so a stage can only be raised in one file, on
- * purpose, with the evidence to back it.
+ * This is the business's own record of what it has designed and is building —
+ * an internal library, not a public catalogue. The site no longer lists these
+ * as products: the Examples page describes the kinds of work we build for, and
+ * shows the one example that has a build behind it (AR Collections Manager).
+ *
+ * This remains the ONLY place a product name, stage, problem statement or
+ * connection is written. Anything that shows a product on the site reads from
+ * here, so a stage can only be raised in one file, on purpose, with the
+ * evidence to back it.
  */
 export type Product = {
   /** URL-safe id, also used for the `?topic=` handoff to the Contact page. */
@@ -17,8 +22,10 @@ export type Product = {
   /** Systems this product connects to. Plain text — never vendor logos (§2.6). */
   connectsTo: string[];
   /**
-   * The working demonstration's route, once it exists. `null` means the card is
-   * rendered as a "demonstration coming" state instead of a link that would 404.
+   * The working demonstration's route, once an interactive one exists. `null`
+   * means the example's page renders a "demonstration being built" state
+   * instead of a link that would 404. The example's own page lives at
+   * `/examples/ar-collections`; this field is for embedding the real thing.
    */
   demoPath: string | null;
   /** One line on what the build is designed to do. Used on the Home proof card. */
@@ -38,8 +45,9 @@ export const PRODUCTS: Product[] = [
       "Microsoft 365 / Google Workspace",
       "Stripe (read-only status)",
     ],
-    // The demonstration is a separate build. Until it ships, this stays null and
-    // the Showcase card says so instead of linking to a page that does not exist.
+    // The interactive demonstration is a separate build. Until it ships, this
+    // stays null and the example's page says so instead of offering a link that
+    // would lead to nothing.
     demoPath: null,
     capabilities: [
       "A priority queue built from the aging report",
