@@ -10,18 +10,34 @@ import type { ReactNode } from "react";
 export function PendingDetail({
   children,
   onNavy = false,
+  block = false,
 }: {
   /** What is missing, e.g. "public email address". */
   children: ReactNode;
   onNavy?: boolean;
+  /** Put the label above the text, for a long gap inside a sentence. */
+  block?: boolean;
 }) {
+  const colours = onNavy
+    ? "border-white/50 text-white"
+    : "border-ink-muted/60 bg-white text-navy-900";
+
+  if (block) {
+    return (
+      <span
+        className={`mt-1 flex w-fit max-w-full flex-col gap-1 rounded-badge border border-dashed px-3 py-2 type-small ${colours}`}
+      >
+        <span className="font-medium">To be supplied</span>
+        <span>{children}</span>
+      </span>
+    );
+  }
+
   return (
     <span
-      className={`inline-flex items-baseline gap-2 rounded-badge border border-dashed px-2 py-0.5 type-small ${
-        onNavy ? "border-white/50 text-white" : "border-ink-muted/60 bg-white text-navy-900"
-      }`}
+      className={`inline-flex max-w-full flex-wrap items-baseline gap-x-2 rounded-badge border border-dashed px-2 py-0.5 type-small ${colours}`}
     >
-      <span className="type-eyebrow">To be supplied</span>
+      <span className="font-medium">To be supplied:</span>
       <span>{children}</span>
     </span>
   );

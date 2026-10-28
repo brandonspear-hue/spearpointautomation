@@ -58,11 +58,15 @@ export function Button({
   const classes = `${BASE} ${VARIANT_CLASSES[variant]} ${className}`;
 
   if (soon) {
+    // Shown, but not a control: there is nothing to click and nothing to break.
     return (
-      <span className={`${classes} cursor-not-allowed border border-dashed border-ink-muted/50 bg-transparent text-ink-muted`}>
-        {children}
-        <span className="type-eyebrow rounded-badge border border-current px-2 py-0.5">Coming soon</span>
-        <span className="sr-only">This is not available yet.</span>
+      <span className={`inline-flex flex-col items-stretch gap-1 ${className}`}>
+        <span
+          className={`${BASE} cursor-not-allowed border border-dashed border-ink-muted/60 bg-transparent whitespace-nowrap text-ink-muted`}
+        >
+          {children}
+        </span>
+        <span className="type-small text-ink-muted">Coming soon — not available yet.</span>
       </span>
     );
   }

@@ -95,7 +95,7 @@ function AboutPage() {
                 <li className="type-body flex flex-col gap-2">
                   <span>
                     Built{" "}
-                    <PendingDetail>
+                    <PendingDetail block>
                       what — spreadsheets, Power Query, scripts, RPA, AI-assisted workflows
                     </PendingDetail>{" "}
                     for real operational use

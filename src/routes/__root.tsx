@@ -5,7 +5,7 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useCallback, useState, type ReactNode } from "react";
 import { Button } from "~/components/button";
 import { Container } from "~/components/container";
 import { SiteFooter } from "~/components/site-footer";
@@ -54,6 +54,10 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  // Stable identity: the header closes itself on navigation, and a callback that
+  // was recreated on every render would re-run that effect and shut the menu
+  // again the moment it opened.
+  const handleMenuOpenChange = useCallback((open: boolean) => setMenuOpen(open), []);
 
   return (
     <html lang="en">
@@ -65,10 +69,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <a href="#content" className="skip-link">
           Skip to content
         </a>
-        <SiteHeader
-          menuOpen={menuOpen}
-          onMenuOpenChange={(open) => setMenuOpen(open)}
-        />
+        <SiteHeader menuOpen={menuOpen} onMenuOpenChange={handleMenuOpenChange} />
         <main id="content" tabIndex={-1} inert={menuOpen} className="flex-1">
           {children}
         </main>
