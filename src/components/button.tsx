@@ -1,0 +1,91 @@
+import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
+
+/** Internal routes that exist today. Keeps link targets honest and typo-proof. */
+export type StaticPath =
+  | "/"
+  | "/services"
+  | "/showcase"
+  | "/how-it-works"
+  | "/about"
+  | "/contact";
+
+type Variant = "primary" | "secondary" | "quiet" | "onNavy";
+
+const BASE =
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-card px-5 py-3 type-body font-medium transition duration-[120ms] ease-out";
+
+const VARIANT_CLASSES: Record<Variant, string> = {
+  primary: "bg-blue-600 text-white hover:bg-blue-700",
+  secondary: "border border-line bg-white text-navy-900 hover:bg-ivory-100",
+  quiet: "px-0 text-blue-700 underline decoration-blue-700/40 underline-offset-4 hover:decoration-blue-700",
+  onNavy: "bg-white text-navy-900 hover:bg-ivory-100",
+};
+
+type ButtonProps = {
+  children: ReactNode;
+  variant?: Variant;
+  /** Internal route — renders a client-side link. */
+  to?: StaticPath;
+  /** External address — renders a plain anchor. */
+  href?: string;
+  /**
+   * The destination is not built yet. Renders a non-interactive label carrying a
+   * visible "Coming soon" tag, never a link that would 404.
+   */
+  soon?: boolean;
+  type?: "button" | "submit";
+  onClick?: () => void;
+  disabled?: boolean;
+  className?: string;
+};
+
+/**
+ * The site's only button (blueprint §2.9). One filled blue button per view;
+ * everything else is secondary (white + hairline) or quiet (a link).
+ */
+export function Button({
+  children,
+  variant = "primary",
+  to,
+  href,
+  soon = false,
+  type = "button",
+  onClick,
+  disabled = false,
+  className = "",
+}: ButtonProps) {
+  const classes = `${BASE} ${VARIANT_CLASSES[variant]} ${className}`;
+
+  if (soon) {
+    return (
+      <span className={`${classes} cursor-not-allowed border border-dashed border-ink-muted/50 bg-transparent text-ink-muted`}>
+        {children}
+        <span className="type-eyebrow rounded-badge border border-current px-2 py-0.5">Coming soon</span>
+        <span className="sr-only">This is not available yet.</span>
+      </span>
+    );
+  }
+
+  if (to) {
+    return (
+      <Link to={to} className={classes}>
+        {children}
+      </Link>
+    );
+  }
+
+  if (href) {
+    return (
+      <a href={href} className={classes}>
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
+      {children}
+    </button>
+  );
+}

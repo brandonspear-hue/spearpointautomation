@@ -1,8 +1,227 @@
 @import "tailwindcss";
 
+/*
+  Spearpoint Automation — design tokens (website blueprint §2).
+  Every colour, radius, shadow, easing and type size used on the site is defined
+  here once. Components use the generated Tailwind classes (bg-navy-900,
+  text-ink-muted, rounded-card, …) and never hold a hex value of their own.
+  If a colour is missing, add it to this block — do not inline it.
+*/
+@theme {
+  /* ---- Colour (§2.1) ---- */
+  --color-navy-900: #0e1b2e; /* all text; footer and navy bands */
+  --color-navy-800: #14243c; /* raised surfaces on navy; demo top bar */
+  --color-navy-700: #1d3350; /* dividers on navy only, never text on light */
+  --color-ink-muted: #44546a; /* captions, table notes, form help */
+  --color-blue-700: #23528f; /* accent text and links; focus ring on light */
+  --color-blue-600: #2c5fa8; /* filled buttons only */
+  --color-blue-100: #dce6f4; /* tinted callout background */
+  --color-ivory-50: #faf8f3; /* default page background */
+  --color-ivory-100: #f3efe6; /* alternating bands, card fills */
+  --color-white: #ffffff; /* cards, tables, inputs */
+  --color-line: #d9e2ee; /* hairline borders — decoration only */
+  --color-danger-700: #9b2c2c; /* form errors only */
+
+  /* ---- Type (§2.2) ---- */
+  --font-sans:
+    "Space Grotesk", "Inter", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --text-display: 2.5rem;
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-display-lg: 3.75rem;
+  --text-display-lg--line-height: 1.05;
+  --text-display-lg--letter-spacing: -0.02em;
+
+  --text-h1: 2.125rem;
+  --text-h1--line-height: 1.12;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h1-lg: 3rem;
+  --text-h1-lg--line-height: 1.12;
+  --text-h1-lg--letter-spacing: -0.015em;
+
+  --text-h2: 1.625rem;
+  --text-h2--line-height: 1.18;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2-lg: 2.25rem;
+  --text-h2-lg--line-height: 1.18;
+  --text-h2-lg--letter-spacing: -0.01em;
+
+  --text-h3: 1.1875rem;
+  --text-h3--line-height: 1.3;
+  --text-h3-lg: 1.375rem;
+  --text-h3-lg--line-height: 1.3;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.08em;
+  --text-eyebrow-lg: 0.8125rem;
+  --text-eyebrow-lg--line-height: 1.4;
+  --text-eyebrow-lg--letter-spacing: 0.08em;
+
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.55;
+  --text-lead-lg: 1.3125rem;
+  --text-lead-lg--line-height: 1.55;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.65;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-small-lg: 0.9375rem;
+  --text-small-lg--line-height: 1.5;
+
+  --text-table: 0.8125rem;
+  --text-table--line-height: 1.4;
+  --text-table-lg: 0.875rem;
+  --text-table-lg--line-height: 1.4;
+
+  /* ---- Containers (§2.3) ---- */
+  --container-page: 75rem; /* 1200px */
+  --container-wide: 87.5rem; /* 1400px */
+
+  /* ---- Radii (§2.4) ---- */
+  --radius-badge: 6px;
+  --radius-card: 10px;
+  --radius-panel: 16px;
+
+  /* ---- Elevation (§2.4) ---- */
+  --shadow-raised: 0 1px 2px rgba(14, 27, 46, 0.06), 0 4px 12px rgba(14, 27, 46, 0.06);
+  --shadow-overlay: 0 12px 32px rgba(14, 27, 46, 0.14);
+
+  /* ---- Motion (§2.5) ---- */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+}
+
 @layer base {
-  html,
+  html {
+    background-color: var(--color-ivory-50);
+    color: var(--color-navy-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100;
+    background-color: var(--color-ivory-50);
+    color: var(--color-navy-900);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    min-height: 100dvh;
+  }
+
+  /* Visible focus everywhere, 2px blue-700 at 2px offset (§2.7). */
+  :focus-visible {
+    outline: 2px solid var(--color-blue-700);
+    outline-offset: 2px;
+  }
+
+  /* On navy surfaces the ring switches to white so it stays visible. */
+  .on-navy :focus-visible {
+    outline-color: var(--color-white);
+  }
+
+  /* One global reduced-motion rule (§2.5): durations zeroed, transforms and
+     smooth scroll removed. Content is never hidden behind an animation. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .hover-lift:hover {
+      transform: none !important;
+    }
+  }
+}
+
+@layer components {
+  /* Type roles (§2.2). Components use these class names rather than repeating
+     five Tailwind utilities, so the whole site changes from one place. */
+  .type-display {
+    @apply text-display font-semibold lg:text-display-lg;
+  }
+  .type-h1 {
+    @apply text-h1 font-semibold lg:text-h1-lg;
+  }
+  .type-h2 {
+    @apply text-h2 font-semibold lg:text-h2-lg;
+  }
+  .type-h3 {
+    @apply text-h3 font-semibold lg:text-h3-lg;
+  }
+  .type-eyebrow {
+    @apply text-eyebrow font-medium uppercase lg:text-eyebrow-lg;
+  }
+  .type-lead {
+    @apply text-lead lg:text-lead-lg;
+  }
+  .type-body {
+    @apply text-body lg:text-body-lg;
+  }
+  .type-small {
+    @apply text-small lg:text-small-lg;
+  }
+  .type-table {
+    @apply text-table tabular-nums lg:text-table-lg;
+  }
+
+  /* Measure (§2.2). */
+  .measure {
+    max-width: 68ch;
+  }
+  .measure-display {
+    max-width: 24ch;
+  }
+
+  /* Skip link: first in tab order, hidden until focused (§2.7). */
+  .skip-link {
+    @apply sr-only rounded-card bg-white px-4 py-3 font-medium text-navy-900;
+  }
+  .skip-link:focus {
+    @apply not-sr-only fixed top-3 left-3 z-50 shadow-overlay;
+  }
+
+  /* Link inside running text: blue-700, underline on hover and focus. */
+  .text-link {
+    @apply text-blue-700 underline decoration-blue-700/40 underline-offset-4;
+    @apply transition-colors duration-[120ms] ease-out hover:decoration-blue-700;
+  }
+
+  /* Card that is a link: the only place a card lifts (§2.5). */
+  .hover-lift {
+    @apply transition duration-[120ms] ease-out;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-raised);
+  }
+
+  /* Mobile menu panel entrance (240ms, §2.5). The global reduced-motion rule
+     above zeroes it. */
+  .panel-enter {
+    animation: panel-in 240ms var(--ease-out) both;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

@@ -1,0 +1,7 @@
+{
+  // Type-checks the application source only.
+  // The scaffold's serve.ts / vercel-entry.ts are Bun host scripts that need the
+  // Bun type definitions, so they are checked separately (or not at all here).
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"]
+}
