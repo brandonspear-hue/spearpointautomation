@@ -97,7 +97,10 @@ function Hero() {
           <p className="type-lead measure mt-6 text-ink-muted">
             We find the manual work that is quietly costing you hours, then build software and
             automation on the systems you already use — your accounting, your email, your CRM,
-            your shop.
+            your shop. We are set up for small businesses: no in-house development team, and no
+            appetite for a long project before anything works. Whether the problem sits in
+            finance, sales or admin, the approach is the same — understand how the business
+            actually runs, then build the workflow that takes the work off someone's desk.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button to="/contact">Book a consultation</Button>
