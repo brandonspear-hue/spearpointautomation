@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 
 /** Internal routes that exist today. Keeps link targets honest and typo-proof. */
 export type StaticPath =
@@ -44,6 +44,12 @@ type ButtonProps = {
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
+  /**
+   * Reaches the underlying `<button>` element, so a page can move focus to it
+   * after something changes. Only meaningful for the button form (no `to`,
+   * `href` or `soon`), which is the only form that renders a real button.
+   */
+  buttonRef?: Ref<HTMLButtonElement>;
 };
 
 /**
@@ -61,6 +67,7 @@ export function Button({
   onClick,
   disabled = false,
   className = "",
+  buttonRef,
 }: ButtonProps) {
   const classes = `${BASE} ${VARIANT_CLASSES[variant]} ${className}`;
 
@@ -100,7 +107,7 @@ export function Button({
   }
 
   return (
-    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
+    <button ref={buttonRef} type={type} onClick={onClick} disabled={disabled} className={classes}>
       {children}
     </button>
   );

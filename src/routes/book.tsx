@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { RefObject } from "react";
 import { Button } from "~/components/button";
 import { PageHeader } from "~/components/page-header";
 import { Section } from "~/components/section";
@@ -22,9 +23,9 @@ export const Route = createFileRoute("/book")({
 });
 
 /**
- * How long the calendar is given to appear before the page says it could not be
- * shown. The page text and the button underneath never depend on this: they are
- * rendered whether the calendar loads or not.
+ * How long the calendar is given to appear once the visitor has asked for it,
+ * before the card says it could not be shown. The new-tab button never depends
+ * on this: it is rendered whether the calendar loads or not.
  */
 const LOAD_TIMEOUT_MS = 12000;
 
@@ -40,22 +41,7 @@ function BookPage() {
       <Section className="pt-0">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-8">
-            <BookingCalendar />
-
-            {/* Always shown, not only when the frame reports a failure: a
-                cross-origin frame can load a page that is itself an error, and
-                this page has no way to see inside it. The line explains the
-                card either way, and never claims a calendar is on screen. */}
-            <p className="type-small measure mt-4 text-ink-muted">
-              The calendar is provided by Microsoft Bookings. If it does not load for you, the
-              button below opens the same page in a new tab.
-            </p>
-
-            <div className="mt-4">
-              <Button variant="secondary" href={BOOKING_URL} newTab className="w-full sm:w-auto">
-                Open the booking page in a new tab
-              </Button>
-            </div>
+            <BookingCard />
           </div>
 
           <aside className="lg:col-span-4">
@@ -96,22 +82,119 @@ function BookPage() {
 }
 
 /**
- * The Microsoft Bookings calendar, in a card.
+ * The booking card.
  *
- * An embedded calendar is the least reliable thing on a website: the host can
- * block the frame, the network can drop it, or the page can simply be slow. So
- * this is built so that failure is visible rather than silent:
+ * The calendar is not loaded when the page opens. It lives on Microsoft's
+ * servers, so this page cannot see whether it is working, slow, or showing its
+ * own error — and a frame that has "loaded" an error page still counts as
+ * loaded, so no fallback here could catch that. A tall grey rectangle as the
+ * first thing on the page reads as broken, and the visitor has no way to know
+ * otherwise.
  *
- *  - "loading" until the frame reports it has loaded;
- *  - "ready" once it has;
- *  - "unavailable" if the frame fires an error or has not loaded within
- *    LOAD_TIMEOUT_MS, in which case a plain sentence replaces it and the button
- *    underneath opens the same booking page in a new tab.
+ * So the card opens with two calm choices instead:
+ *
+ *  1. "Open the booking calendar" — a plain link to the booking page in a new
+ *     tab. This is the path that always works, so it is the primary control.
+ *  2. "Show the calendar on this page" — a button that swaps the frame in for
+ *     visitors who would rather not leave the site.
+ *
+ * Once shown, the frame behaves as it always did: "loading" until it reports
+ * it has loaded, "unavailable" if it errors or does not load within
+ * LOAD_TIMEOUT_MS (with the new-tab button above as the way through), and a
+ * "Hide the calendar" control that puts the card back how it started.
+ *
+ * The choice lasts for this page view only — nothing is stored, no cookie is
+ * set, and a reload returns to the two choices.
+ */
+function BookingCard() {
+  const [showing, setShowing] = useState(false);
+  /** Read out by a polite live region so the change is not silent. */
+  const [announcement, setAnnouncement] = useState("");
+  const frameRef = useRef<HTMLIFrameElement | null>(null);
+  const showButtonRef = useRef<HTMLButtonElement | null>(null);
+  /** Only move focus once the visitor has actually made a choice. */
+  const hasChosen = useRef(false);
+
+  useEffect(() => {
+    if (!hasChosen.current) return;
+    if (showing) frameRef.current?.focus();
+    else showButtonRef.current?.focus();
+  }, [showing]);
+
+  function showCalendar() {
+    hasChosen.current = true;
+    setShowing(true);
+    setAnnouncement("The booking calendar is now shown on this page.");
+  }
+
+  function hideCalendar() {
+    hasChosen.current = true;
+    setShowing(false);
+    setAnnouncement("The booking calendar has been hidden.");
+  }
+
+  return (
+    <div className="overflow-hidden rounded-panel border border-line bg-white">
+      <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3 sm:px-5">
+        <span className="type-small font-medium">Spearpoint Automation booking calendar</span>
+        <span className="type-eyebrow text-ink-muted">Microsoft Bookings</span>
+      </div>
+
+      <div className="p-4 sm:p-5">
+        <p className="type-small measure text-ink-muted">
+          The calendar is provided by Microsoft Bookings, the scheduling service we use. Opening it
+          in a new tab is the reliable way to see which times are free.
+        </p>
+
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <Button href={BOOKING_URL} newTab className="w-full sm:w-auto">
+            Open the booking calendar
+          </Button>
+          {showing ? null : (
+            <Button
+              variant="secondary"
+              buttonRef={showButtonRef}
+              onClick={showCalendar}
+              className="w-full sm:w-auto"
+            >
+              Show the calendar on this page
+            </Button>
+          )}
+        </div>
+
+        {showing ? (
+          <div className="mt-4">
+            <CalendarFrame frameRef={frameRef} />
+
+            <p className="type-small measure mt-3 text-ink-muted">
+              If the calendar does not appear, the button above opens the same page in a new tab.
+            </p>
+
+            <Button variant="quiet" onClick={hideCalendar} className="mt-1">
+              Hide the calendar
+            </Button>
+          </div>
+        ) : null}
+
+        {/* Polite live region: the change is announced, and it stays out of the
+            way of sighted visitors. It starts empty so nothing is read on load. */}
+        <p className="sr-only" role="status">
+          {announcement}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The Microsoft Bookings calendar itself, mounted only after the visitor asks
+ * for it. Because it mounts on demand, the load timeout starts when the frame
+ * appears, and hiding then showing again starts from a clean state.
  *
  * The frame stays mounted while unavailable (just hidden), so a calendar that
  * arrives late still appears instead of being thrown away.
  */
-function BookingCalendar() {
+function CalendarFrame({ frameRef }: { frameRef: RefObject<HTMLIFrameElement | null> }) {
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
 
   useEffect(() => {
@@ -124,40 +207,33 @@ function BookingCalendar() {
   const unavailable = status === "unavailable";
 
   return (
-    <div className="overflow-hidden rounded-panel border border-line bg-white">
-      <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3 sm:px-5">
-        <span className="type-small font-medium">Spearpoint Automation booking calendar</span>
-        <span className="type-eyebrow text-ink-muted">Microsoft Bookings</span>
-      </div>
-
-      <div className="p-2 sm:p-3">
-        {unavailable ? (
-          <div className="flex min-h-[240px] flex-col items-center justify-center gap-3 rounded-card bg-ivory-100 px-6 py-12 text-center">
-            <p className="type-body">The calendar could not be shown on this page.</p>
-            <p className="type-small text-ink-muted">
-              Nothing is broken on your side — the button below opens the booking page in a new
-              tab.
-            </p>
-          </div>
-        ) : null}
-
-        <iframe
-          title="Spearpoint Automation booking calendar (Microsoft Bookings)"
-          src={BOOKING_EMBED_URL}
-          loading="lazy"
-          onLoad={() => setStatus("ready")}
-          onError={() => setStatus("unavailable")}
-          className={`h-[640px] w-full rounded-card border-0 sm:h-[780px] ${
-            unavailable ? "hidden" : "block"
-          }`}
-        />
-
-        {status === "loading" ? (
-          <p className="type-small px-1 pt-2 text-ink-muted" role="status">
-            Loading the calendar…
+    <div className="p-2 sm:p-3">
+      {unavailable ? (
+        <div className="flex min-h-[240px] flex-col items-center justify-center gap-3 rounded-card bg-ivory-100 px-6 py-12 text-center">
+          <p className="type-body">The calendar could not be shown on this page.</p>
+          <p className="type-small text-ink-muted">
+            Nothing is broken on your side — the button above opens the booking page in a new tab.
           </p>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
+
+      <iframe
+        ref={frameRef}
+        title="Spearpoint Automation booking calendar (Microsoft Bookings)"
+        src={BOOKING_EMBED_URL}
+        loading="lazy"
+        onLoad={() => setStatus("ready")}
+        onError={() => setStatus("unavailable")}
+        className={`h-[640px] w-full rounded-card border-0 sm:h-[780px] ${
+          unavailable ? "hidden" : "block"
+        }`}
+      />
+
+      {status === "loading" ? (
+        <p className="type-small px-1 pt-2 text-ink-muted" role="status">
+          Loading the calendar…
+        </p>
+      ) : null}
     </div>
   );
 }
