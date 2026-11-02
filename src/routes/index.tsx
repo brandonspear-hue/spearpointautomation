@@ -115,15 +115,15 @@ function Hero() {
         <div className="lg:col-span-7">
           <Eyebrow>Custom AI solutions · Built on your existing systems</Eyebrow>
           <h1 className="type-display measure-display mt-6">
-            Custom AI solutions for businesses without an in-house development team.
+            The invoices, the inbox, the same figures typed twice — still done by hand.
           </h1>
           <p className="type-lead measure mt-6 text-ink-muted">
-            We find the manual work that is quietly costing you hours, then build software and
-            automation on the systems you already use — your accounting, your email, your CRM,
-            your shop. We are set up for small businesses: no in-house development team, and no
-            appetite for a long project before anything works. Whether the problem sits in
-            finance, sales or admin, the approach is the same — understand how the business
-            actually runs, then build the workflow that takes the work off someone's desk.
+            Spearpoint builds the software and automation that takes that work off someone&apos;s
+            desk, on the systems you already use — your accounting, your email, your CRM, your
+            shop. We are set up for small businesses: no in-house development team, and no
+            appetite for a long project before anything works. Whether the work sits in finance,
+            sales or admin, the approach is the same — understand how the business actually runs,
+            then build the workflow that removes the step.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button to="/book">Book a consultation</Button>
