@@ -268,17 +268,17 @@ function SystemsDiagram() {
       />
       <DiagramArrow />
       <DiagramBox
-        title="Integration layer"
+        title="The connection"
         items={[
           "Read access to what the process needs",
-          "Approved app review where it applies",
-          "The narrowest scope that works",
+          "The vendor's approval, where one is needed",
+          "Only the access the job needs",
         ]}
       />
       <DiagramArrow />
       <DiagramBox
         title="What we build"
-        items={["A queue, a report, an inbox, a draft", "Reviewed by a person before it leaves"]}
+        items={["A queue, a report, an inbox, a draft", "A person checks it before it leaves"]}
       />
     </div>
   );
