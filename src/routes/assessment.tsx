@@ -211,6 +211,14 @@ function Intro({ onStart, focusRef }: { onStart: () => void; focusRef: (node: HT
         <div className="rounded-panel border border-line bg-white p-6 lg:p-8">
           <h2 ref={focusRef} tabIndex={-1} className="type-h2">Before you start</h2>
           <ul className="mt-6 flex flex-col gap-4">
+            {/* Framed as work Spearpoint built, and honest about what it is not:
+                no client has run it on their own business. */}
+            <IntroItem title="An example of the work.">
+              This assessment is a working demonstration Spearpoint built — not a client project.
+              The method is the same one we would use on your business: read the process you
+              describe, find where the manual effort sits, and name what a discovery conversation
+              would still have to confirm.
+            </IntroItem>
             <IntroItem title="About two minutes.">
               Nine questions about one manual process. Every one is optional, and you can go back
               and change an answer at any point.

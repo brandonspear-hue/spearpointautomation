@@ -333,8 +333,11 @@ function AssessmentSection() {
         <div>
           <h2 className="type-h2 measure">Not sure where to start? Answer nine questions.</h2>
           <p className="type-body measure mt-4 text-ink-muted">
-            It returns a shortlist of where automation might help and the questions a discovery
-            conversation would ask — not a quote, and not a diagnosis.
+            Spearpoint built this tool, and it shows the method behind the work: read the process,
+            find where the manual effort sits, and say what a discovery conversation would still
+            have to confirm. It is a working demonstration built for this site, not a client
+            project — the same method applied to a real process is where an engagement starts. It
+            returns a shortlist of where automation might help, not a quote and not a diagnosis.
           </p>
           <p className="type-small measure mt-3 text-ink-muted">
             Answers stay in your browser. Nothing is sent unless you choose to send it.
