@@ -27,10 +27,17 @@ export const site = {
   serviceRegion: "Remote — anywhere" as string | null,
 
   /**
+   * How quickly an enquiry gets a reply (blueprint §9.1 #2). A promise the
+   * founder has made, so it is printed in the words he gave: a working day, not
+   * a number of hours.
+   */
+  replyTime: "within one business day" as string | null,
+
+  /**
    * The registered legal name (blueprint §9.1 #2).
    * Do not print "LLC" (or any other entity suffix) before it exists.
    */
-  legalName: null as string | null,
+  legalName: "Brandon Spear" as string | null,
 
   /** Copyright year printed in the footer. */
   year: 2026,
