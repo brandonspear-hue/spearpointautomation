@@ -85,9 +85,15 @@ export function SiteFooter({ inert = false }: { inert?: boolean }) {
                 <PendingDetail onNavy>registered legal name</PendingDetail>
               )}
             </span>
+            {/* The privacy note lives at /privacy. It is small print, so it
+                belongs on this row rather than in the pages list above. */}
             <span>
-              Privacy:{" "}
-              <PendingDetail onNavy>privacy note not yet written</PendingDetail>
+              <Link
+                to="/privacy"
+                className="text-white/70 underline decoration-white/40 underline-offset-4 transition-colors duration-[120ms] ease-out hover:text-white"
+              >
+                Privacy
+              </Link>
             </span>
           </p>
           <p className="type-small mt-3 text-white/70">

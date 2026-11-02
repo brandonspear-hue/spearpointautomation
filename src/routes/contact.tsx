@@ -171,7 +171,8 @@ function ContactAside() {
         <h2 className="type-h3">What to expect</h2>
         <ul className="mt-3 flex flex-col gap-3">
           <li className="type-body">
-            Reply time: <PendingDetail>reply-time commitment</PendingDetail>
+            Reply time:{" "}
+            {site.replyTime ? site.replyTime : <PendingDetail>reply-time commitment</PendingDetail>}
           </li>
           <li className="type-body">
             Service area:{" "}
@@ -491,7 +492,12 @@ function ConsultationForm() {
           </p>
         ) : null}
         <p className="type-small mt-2 text-ink-muted">
-          A privacy note is not published yet: <PendingDetail>privacy note</PendingDetail>
+          Nothing you type here is stored on this site — the form composes an email in your own
+          app.{" "}
+          <Link to="/privacy" className="text-link">
+            Read the privacy note
+          </Link>
+          .
         </p>
       </div>
 
