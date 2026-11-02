@@ -174,7 +174,12 @@ function ContactAside() {
             Reply time: <PendingDetail>reply-time commitment</PendingDetail>
           </li>
           <li className="type-body">
-            Service area: <PendingDetail>service region</PendingDetail>
+            Service area:{" "}
+            {site.serviceRegion ? (
+              site.serviceRegion
+            ) : (
+              <PendingDetail>service region</PendingDetail>
+            )}
           </li>
         </ul>
       </div>

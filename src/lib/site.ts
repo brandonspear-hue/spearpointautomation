@@ -18,8 +18,13 @@ export const site = {
    */
   contactEmail: "brandon@spearpointautomation.com" as string | null,
 
-  /** The service region, e.g. "Serving the United Kingdom" (blueprint §9.1 #2). */
-  serviceRegion: null as string | null,
+  /**
+   * The service region (blueprint §9.1 #2). The founder works remotely and takes
+   * clients wherever they are, so this is a statement about how the work is
+   * delivered, not a boundary. Nothing on the site promises travel or on-site
+   * attendance — don't add any without his say-so.
+   */
+  serviceRegion: "Remote — anywhere" as string | null,
 
   /**
    * The registered legal name (blueprint §9.1 #2).
