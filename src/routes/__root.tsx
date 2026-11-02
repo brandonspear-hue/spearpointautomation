@@ -26,8 +26,14 @@ export const Route = createRootRoute({
       { property: "og:type", content: "website" },
       { property: "og:title", content: "Spearpoint Automation — custom AI solutions for small businesses" },
       { property: "og:description", content: DEFAULT_DESCRIPTION },
+      // Matches --color-navy-900 in src/styles/app.css: the browser tints its
+      // own chrome (mobile address bar, task switcher) to the site's navy.
+      { name: "theme-color", content: "#0e1b2e" },
     ],
     links: [
+      // The favicon is shapes only (public/favicon.svg), so it stays legible at
+      // 16px on every platform instead of depending on a font being present.
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       // Space Grotesk (blueprint §2.2). Preconnected and swapped, so a slow font
       // never blocks the page and the fallback stack keeps it legible if it fails.
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
