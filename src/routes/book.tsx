@@ -55,20 +55,7 @@ function BookPage() {
           </div>
 
           <aside className="lg:col-span-4">
-            <div className="rounded-card bg-ivory-100 p-5">
-              <h2 className="type-h3">Rather write it down?</h2>
-              <p className="type-small mt-2 text-ink-muted">
-                The contact form takes a written description instead. The more detail you give
-                about the process, the more useful the first reply is.
-              </p>
-              <p className="mt-3">
-                <Link to="/contact" className="text-link type-small">
-                  Write to us instead
-                </Link>
-              </p>
-            </div>
-
-            <div className="mt-6 rounded-card border border-line bg-white p-5">
+            <div className="rounded-card border border-line bg-white p-5">
               <h2 className="type-h3">What happens after</h2>
               <ul className="mt-3 flex flex-col gap-3">
                 <li className="type-small text-ink-muted">
@@ -170,6 +157,24 @@ function BookingCard() {
               Show the calendar on this page
             </Button>
           )}
+        </div>
+
+        {/* The written route sits here, directly under the calendar buttons, so
+            a visitor who cannot get the calendar to open does not have to hunt
+            for another way in. It is a second choice, not a fallback warning:
+            same card copy as before, and the same secondary button styling as
+            the control above it. */}
+        <div className="mt-5 rounded-card border border-line bg-ivory-100 p-4 sm:p-5">
+          <h2 className="type-h3">Rather write it down?</h2>
+          <p className="type-small mt-2 text-ink-muted">
+            The contact form takes a written description instead. The more detail you give about
+            the process, the more useful the first reply is.
+          </p>
+          <div className="mt-3">
+            <Button variant="secondary" to="/contact">
+              Write to us instead
+            </Button>
+          </div>
         </div>
 
         {showing ? (
