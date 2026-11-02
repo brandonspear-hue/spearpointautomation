@@ -42,6 +42,16 @@ function BookPage() {
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-8">
             <BookingCard />
+            {/* The calendar is Microsoft's, and it can fail in ways this page
+                cannot see. One quiet line, no warning styling: the visitor
+                always has a second way to reach a person. */}
+            <p className="type-small measure mt-4 text-ink-muted">
+              If the calendar does not open, the{" "}
+              <Link to="/contact" className="text-link">
+                enquiry form
+              </Link>{" "}
+              on our contact page reaches the same person.
+            </p>
           </div>
 
           <aside className="lg:col-span-4">
