@@ -8,7 +8,8 @@
  *   1. The internal product library is internal. No file under src/routes or
  *      src/components may import src/lib/products.ts or src/lib/stages.ts.
  *   2. No product name may be written on the public site. The names are read out
- *      of src/lib/products.ts and searched for in routes and components.
+ *      of src/lib/products.ts and searched for in routes and components — and in
+ *      anything under public/, which is served to visitors byte for byte.
  *   3. A stage name may only be written in the library files. That is what keeps
  *      the stage taxonomy off the site even if someone pastes a label in.
  *   4. No source file may read an environment variable. There are no server
@@ -97,6 +98,41 @@ for (const envFile of [".env", ".env.local", ".env.production"]) {
   }
 }
 
+// Files under public/ are served to visitors exactly as they are on disk —
+// favicon.svg, robots.txt and anything added later. They are not .ts/.tsx, so
+// the walk above never reads them; they get the same two checks here.
+const PUBLIC_DIR = join(ROOT, "public");
+const TEXT_ASSET = /\.(svg|txt|html|json|webmanifest|xml|css|js)$/i;
+
+function walkPublic(dir) {
+  const out = [];
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) out.push(...walkPublic(full));
+    else if (TEXT_ASSET.test(entry)) out.push(full);
+  }
+  return out;
+}
+
+const publicAssets = existsSync(PUBLIC_DIR) ? walkPublic(PUBLIC_DIR) : [];
+
+for (const asset of publicAssets) {
+  const path = relative(ROOT, asset);
+  const source = readFileSync(asset, "utf8");
+
+  for (const name of PRODUCT_NAMES) {
+    if (source.includes(name)) {
+      failures.push(`${path}: names the product "${name}". No product is advertised on the site.`);
+    }
+  }
+
+  for (const phrase of STAGE_NAMES) {
+    if (source.includes(phrase)) {
+      failures.push(`${path}: stage name "${phrase}" in a public asset.`);
+    }
+  }
+}
+
 // No product may claim client validation while no client has used anything.
 if (/stage:\s*"client-validated"/.test(PRODUCT_SOURCE)) {
   failures.push('src/lib/products.ts: a product holds the "client-validated" stage. No client has validated anything.');
@@ -108,5 +144,5 @@ if (failures.length > 0) {
   process.exit(1);
 }
 console.log(
-  `Honesty checks passed: ${files.length} source files, ${publicFiles.length} public, ${PRODUCT_NAMES.length} internal product names kept out of them.`,
+  `Honesty checks passed: ${files.length} source files, ${publicFiles.length} public, ${publicAssets.length} public assets, ${PRODUCT_NAMES.length} internal product names kept out of them.`,
 );
