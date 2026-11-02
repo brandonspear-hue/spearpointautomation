@@ -8,6 +8,7 @@ export type StaticPath =
   | "/how-it-works"
   | "/about"
   | "/assessment"
+  | "/book"
   | "/contact";
 
 type Variant = "primary" | "secondary" | "quiet" | "onNavy";
@@ -30,6 +31,11 @@ type ButtonProps = {
   /** External address — renders a plain anchor. */
   href?: string;
   /**
+   * Open an external `href` in a new tab. Adds target="_blank" and rel="noopener",
+   * so the page we send people to cannot reach back into this one.
+   */
+  newTab?: boolean;
+  /**
    * The destination is not built yet. Renders a non-interactive label carrying a
    * visible "Coming soon" tag, never a link that would 404.
    */
@@ -49,6 +55,7 @@ export function Button({
   variant = "primary",
   to,
   href,
+  newTab = false,
   soon = false,
   type = "button",
   onClick,
@@ -81,7 +88,12 @@ export function Button({
 
   if (href) {
     return (
-      <a href={href} className={classes}>
+      <a
+        href={href}
+        className={classes}
+        target={newTab ? "_blank" : undefined}
+        rel={newTab ? "noopener" : undefined}
+      >
         {children}
       </a>
     );

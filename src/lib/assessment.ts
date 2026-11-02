@@ -392,7 +392,7 @@ export type Summary = {
   notes: Note[];
   dependencies: Dependency[];
   discovery: DiscoveryItem[];
-  nextStep: { text: string; to: "/contact" | "/services" };
+  nextStep: { text: string; to: "/book" | "/services" };
   notList: string;
   /** Questions left blank, so the result can say what it could not see. */
   missing: { id: QuestionId; label: string }[];
@@ -806,9 +806,9 @@ const MISSING_LABELS: Record<QuestionId, string> = {
   a9: "the outcome you want",
 };
 
-const NEXT_STEP: Record<Band, { text: string; to: "/contact" | "/services" }> = {
-  1: { text: "Book a consultation and bring the process with you.", to: "/contact" },
-  2: { text: "Come back with the volume figures, or book a conversation.", to: "/contact" },
+const NEXT_STEP: Record<Band, { text: string; to: "/book" | "/services" }> = {
+  1: { text: "Book a consultation and bring the process with you.", to: "/book" },
+  2: { text: "Come back with the volume figures, or book a conversation.", to: "/book" },
   3: { text: "Nothing to do — if the volume changes, come back.", to: "/services" },
 };
 

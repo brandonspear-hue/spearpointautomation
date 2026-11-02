@@ -24,6 +24,8 @@ type Step = {
   body: string;
   /** Every step boundary offers the same way to ask about it (§1.2). */
   linkLabel: string;
+  /** Where that offer goes: booking a time, or writing with detail. */
+  to: "/book" | "/contact";
 };
 
 const STEPS: Step[] = [
@@ -31,26 +33,31 @@ const STEPS: Step[] = [
     title: "A conversation (30 minutes)",
     body: "What you tell us, what we ask, a straight answer about whether this is worth doing. No preparation, no obligation.",
     linkLabel: "Book a consultation",
+    to: "/book",
   },
   {
     title: "Discovery (paid, fixed scope)",
     body: "Shadow the process, read the reports, list data sources, write it down. You get a process map, a prioritised shortlist, and what we would not automate. Duration is scoped in the proposal — quoted, not guessed on a website.",
     linkLabel: "Ask what discovery would cover",
+    to: "/contact",
   },
   {
     title: "Proposal",
     body: "Included, excluded, dependencies (credentials, decisions, third-party app review), and what happens if one is late. Fixed fee per deliverable; changes quoted separately. You approve it in writing before any code is written.",
     linkLabel: "Ask what a proposal includes",
+    to: "/contact",
   },
   {
     title: "Build in reviewable stages",
     body: "Something you can open and test each cycle; a named acceptance point; no silent scope growth. You see work every week, not a reveal at the end.",
     linkLabel: "Ask how a stage is accepted",
+    to: "/contact",
   },
   {
     title: "Handover and support",
     body: "Repositories, documentation, runbook, training, credentials in your own accounts. Support separate, optional, with a defined boundary.",
     linkLabel: "Ask what support covers",
+    to: "/contact",
   },
 ];
 
@@ -87,7 +94,7 @@ function HowItWorksPage() {
                 <div className={`${index < STEPS.length - 1 ? "pb-10" : ""} max-w-2xl`}>
                   <h3 className="type-h3">{step.title}</h3>
                   <p className="type-body mt-3 text-ink-muted">{step.body}</p>
-                  <Link to="/contact" className="text-link type-small mt-3 inline-block">
+                  <Link to={step.to} className="text-link type-small mt-3 inline-block">
                     {step.linkLabel}
                   </Link>
                 </div>

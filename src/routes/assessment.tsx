@@ -678,7 +678,7 @@ function ResultStep({
         <p className="type-body measure mt-3">{summary.nextStep.text}</p>
         <div className="mt-6">
           <Button to={summary.nextStep.to}>
-            {summary.nextStep.to === "/contact" ? "Book a consultation" : "See what we do"}
+            {summary.nextStep.to === "/book" ? "Book a consultation" : "See what we do"}
           </Button>
         </div>
       </div>

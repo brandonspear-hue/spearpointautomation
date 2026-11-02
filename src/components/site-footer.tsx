@@ -40,6 +40,13 @@ export function SiteFooter({ inert = false }: { inert?: boolean }) {
                   Automation Assessment
                 </Link>
               </li>
+              {/* Also not in the header: the header already carries one filled
+                  "Book a consultation" button, and one action is enough. */}
+              <li>
+                <Link to="/book" className="type-small text-white underline-offset-4 hover:underline">
+                  Book a consultation
+                </Link>
+              </li>
             </ul>
           </nav>
 

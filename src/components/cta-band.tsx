@@ -21,7 +21,7 @@ export function CtaBand({
         </div>
         {/* shrink-0: without it the flex row squeezes the button and the label
             wraps onto two lines on a wide screen. */}
-        <Button to="/contact" variant="onNavy" className="w-full shrink-0 sm:w-auto">
+        <Button to="/book" variant="onNavy" className="w-full shrink-0 sm:w-auto">
           Book a consultation
         </Button>
       </div>

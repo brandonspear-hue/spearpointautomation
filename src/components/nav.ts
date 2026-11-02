@@ -19,4 +19,4 @@ export const NAV: NavItem[] = [
 ];
 
 /** The one filled button in the header and in the closing bands. */
-export const PRIMARY_CTA = { label: "Book a consultation", to: "/contact" } as const;
+export const PRIMARY_CTA = { label: "Book a consultation", to: "/book" } as const;

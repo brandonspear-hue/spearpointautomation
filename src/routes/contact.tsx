@@ -120,7 +120,7 @@ function ContactPage() {
       <PageHeader
         eyebrow="Contact"
         title="Tell us what's slowing you down."
-        lead="A short description is enough to start. If it isn't a fit, we'll say so."
+        lead="Write as much or as little as you like — detail helps the reply. If you would rather talk it through first, book a 30-minute conversation instead."
       />
 
       <Section className="pt-0">
@@ -140,6 +140,20 @@ function ContactPage() {
 function ContactAside() {
   return (
     <div className="flex flex-col gap-8 lg:sticky lg:top-28">
+      {/* The other way in, stated plainly and once: talk now, or write now. */}
+      <div className="rounded-card border border-line bg-white p-5">
+        <h2 className="type-h3">Rather talk than type?</h2>
+        <p className="type-small mt-2 text-ink-muted">
+          Book a 30-minute conversation about one process instead — no obligation, and nothing to
+          prepare.
+        </p>
+        <p className="mt-3">
+          <Link to="/book" className="text-link type-small">
+            Book a conversation
+          </Link>
+        </p>
+      </div>
+
       <div>
         <h2 className="type-h3">By email</h2>
         <p className="type-body mt-3">

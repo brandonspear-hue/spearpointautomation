@@ -126,7 +126,7 @@ function Hero() {
             actually runs, then build the workflow that takes the work off someone's desk.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button to="/contact">Book a consultation</Button>
+            <Button to="/book">Book a consultation</Button>
             <Button variant="secondary" to="/assessment">
               Take the two-minute assessment
             </Button>
