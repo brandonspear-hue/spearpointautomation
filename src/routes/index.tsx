@@ -117,13 +117,11 @@ function Hero() {
           <h1 className="type-display measure-display mt-6">
             The invoices, the inbox, the same figures typed twice — still done by hand.
           </h1>
-          <p className="type-lead measure mt-6 text-ink-muted">
+          <p className="type-body measure mt-6 text-ink-muted">
             Spearpoint builds the software and automation that takes that work off someone&apos;s
             desk, on the systems you already use — your accounting, your email, your CRM, your
-            shop. We are set up for small businesses: no in-house development team, and no
-            appetite for a long project before anything works. Whether the work sits in finance,
-            sales or admin, the approach is the same — understand how the business actually runs,
-            then build the workflow that removes the step.
+            shop. It is built for small businesses: no development team required, and something
+            you can open and test at each stage rather than a description of what will be built.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button to="/book">Book a consultation</Button>
@@ -131,6 +129,13 @@ function Hero() {
               Take the two-minute assessment
             </Button>
           </div>
+          {/* Who is behind it, in the founder's own words from the About page.
+              One line, the same width as the buttons above it: a buyer's first
+              question after "what is this" is "who am I dealing with". */}
+          <p className="type-small mt-4 text-ink-muted">
+            Spearpoint is one person — a background in accounting, financial systems and business
+            process improvement, not a software sales team.
+          </p>
         </div>
         <div className="lg:col-span-5">
           <EngagementPanel />
